@@ -23,6 +23,7 @@ params {
     forward_reads: Path
     reverse_reads: Path
     out_dir: String
+    include_utr = false
     strand: String = "unstranded"
     pairwise = false
 }
@@ -32,7 +33,9 @@ workflow{
     main:
     // read_channel = channel.fromPath(params.reads)
     genome_fa = "genome.fa"
-    bed_file = "${params.toga_dir}/query_annotation.bed"
+    bed_file = (
+        params.include_utr ? "${params.toga_dir}/query_annotation.with_utr.bed" : "${params.toga_dir}/query_annotation.bed"
+    )
     isoforms = "${params.toga_dir}/query_genes.tsv"
     gtf_file = "query_annotation.gtf"
     kbref_tmp = "kb-ref"
@@ -40,7 +43,7 @@ workflow{
     kbref_index = "index.idx"
     kbref_t2g = "t2g.txt"
     kbref_fa = "cdna.fasta"
-    decoy = "decoy.fa"
+    decoy = params.include_utr ? genome_fa : "decoy.fa"
     kbref_t2g_fixed = "toga.gene_names.txt"
 
     // part 1: kb_index_final.sh content
@@ -56,7 +59,9 @@ workflow{
     create_gtf_for_kbpython(bed_file, isoforms, gtf_file)
 
     // create a decoy file
-    create_decoy(twoBitToFa.out, bed_file, decoy)
+    if (!params.include_utr) {
+        create_decoy(twoBitToFa.out, bed_file, decoy)
+    }
 
     // run kb ref
     kb_ref(
