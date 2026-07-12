@@ -1,19 +1,11 @@
 <p align="center">
-  <p align="center">
-    <img width=200 align="center" src="./wiki/LOGO_TOGA2.png" >
-  </p>
-
-  <p align="center">
-    <img width=200 align="center" src="./wiki/hillerlab.png" >
-  </p>
-
   <span>
     <h1 align="center">
         toga2kbpython
     </h1>
-    <h2 align="center">
+    <h3 align="center">
         Part of TOGA2 suite
-    </h2>
+    </h3>
   </span>
 
   <p align="center">
@@ -24,7 +16,7 @@
 
   <p align="center">
     <samp>
-        <span> TOGA2: A faster, more versatile successor of Tool to infer Orthologs from Genome Alignments </span>
+        <span> Gene expression quantification pipeline based on kb-python compatible with TOGA2 output structure </span>
         <br>
         <span> The Hiller Lab at the Senckenberg Research Institute </span>
         <br>
@@ -37,9 +29,6 @@
   </p>
 
 </p>
-
-# toga2kbpython
-Gene expression quantification pipeline based on kb-python compatible with TOGA2 output structure
 
 >[!WARNING]
 This pipeline is currently in early access.
