@@ -3,6 +3,7 @@
 args <- commandArgs(TRUE)
 db = args[1]
 dir = args[2]
+output = args[3] ## added by YM
 
 # Check if the user asked for help
 if ("--help" %in% args || "-h" %in% args || length(args) == 0) {
@@ -17,13 +18,15 @@ if ("--help" %in% args || "-h" %in% args || length(args) == 0) {
   quit(status = 0)
 }
 
-if(file.exists(paste0(dir, "t2g_TOGA2.tsv"))){
+if(file.exists(output)){
   print(paste0("the isoform file for ", db, " has been generated"))
 } else {
   print(paste0("preparing the t2g_TOGA2 file for ", db)) 
+  print(paste0(args[1], "\t", args[2], "\t", args[3]))
   
   ## get the kb_python index file for this species
-  isoform = read.table(paste0(dir, "t2g.txt"), comment.char = "")
+  # isoform = read.table(paste0(dir, "t2g.txt"), comment.char = "")
+  isoform = read.table(dir, comment.char = "") ## added by YM
   isoform = isoform[,1:2]
   names(isoform) = c("transcript", "gene_id")
   ## remove GENE_NOT_FOUND
@@ -67,5 +70,6 @@ if(file.exists(paste0(dir, "t2g_TOGA2.tsv"))){
     length(unlist(strsplit(x, split=",")))
   }) 
   
-  write.table(isoform, paste0(dir, "/t2g_TOGA2.tsv"), sep="\t", quote = F, row.names = F)
+  # write.table(isoform, paste0(dir, "/t2g_TOGA2.tsv"), sep="\t", quote = F, row.names = F)
+  write.table(isoform, output, sep="\t", quote = F, row.names = F) ## added by YM
 }  

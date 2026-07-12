@@ -1,7 +1,7 @@
 process twoBitToFa {
     input:
     path genome
-    path output
+    val output
 
     output:
     path "${output}"

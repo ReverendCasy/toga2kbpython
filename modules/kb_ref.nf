@@ -1,4 +1,6 @@
 process kb_ref {
+    conda "bioconda::kb-python"
+
     input:
     path fasta
     path gtf
@@ -10,9 +12,9 @@ process kb_ref {
 
 
     output:
-    path "${output_index}"
-    path "${output_t2g}"
-    path "${output_fasta}"
+    path "${output_index}", emit: index
+    path "${output_t2g}", emit: t2g
+    path "${output_fasta}", emit: fasta
     
     script:
     """
