@@ -44,13 +44,13 @@ The pipeline uses TOGA2 output and paired-end RNAseq reads to quantify gene expr
 
 # Running toga2kbpython
 The following arguments are mandatory for `toga2kbpython` to run:
-* `--genome` - Query^* genome in [2bit](https://genome.ucsc.edu/goldenpath/help/twoBit.html) format.
+* `--genome` - Query<sup>*</sup> genome in [2bit](https://genome.ucsc.edu/goldenpath/help/twoBit.html) format.
 * `--toga_dir` - TOGA2 output directory for the selected query.
 * `--forward_reads` - Forward RNAseq reads in [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) format. Can be compressed with gzip.
 * `--reverse_reads` - Reverse RNAseq reads in [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) format. Can be compressed with gzip.
 * `--out_dir` - Name of the output directory.
 
-^* For the purpose of `kb-python` pseudoalignment, the input genome sequence is called reference elsewhere. We note, however, that the input for `toga2kbpython` is a TOGA2 query annotation.
+<sup>*</sup> For the purpose of `kb-python` pseudoalignment, the input genome sequence is called reference elsewhere. We note, however, that the input for `toga2kbpython` is a TOGA2 query annotation.
 
 # Caveats
 >[!INFO]
