@@ -15,6 +15,8 @@ process kb_count {
     path "${output}", emit: out_dir
     path "abundance.gene.tsv", emit: abundance_gene
     path "abundance.tsv", emit: abundance
+    path "kb_info.json", emit: kb_info
+    path "run_info.json", emit: run_info
 
 
     script:
@@ -40,6 +42,8 @@ process kb_count {
         rm -rf ${output}/\${file}; \
     done && \
     cp ${output}/abundance.tsv abundance.tsv && \
-    cp ${output}/abundance.gene.tsv abundance.gene.tsv
+    cp ${output}/abundance.gene.tsv abundance.gene.tsv && \
+    cp ${output}/kb_info.json . && \
+    cp ${output}/run_info.json .
     """
 }

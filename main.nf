@@ -22,7 +22,7 @@ params {
     toga_dir: Path
     forward_reads: Path
     reverse_reads: Path
-    out_dir: String
+    out_dir: Path
     include_utr = false
     strand: String = "unstranded"
     pairwise = false
@@ -32,6 +32,7 @@ workflow{
 
     main:
     // read_channel = channel.fromPath(params.reads)
+    // out_dir = 
     genome_fa = "genome.fa"
     bed_file = (
         params.include_utr ? "${params.toga_dir}/query_annotation.with_utr.bed" : "${params.toga_dir}/query_annotation.bed"
@@ -99,23 +100,33 @@ workflow{
     abundance = kb_count.out.abundance
     kbcount_count = post_count.out.counts
     kbcount_tpm = post_count.out.tpm
+    kb_info = kb_count.out.kb_info
+    run_info = kb_count.out.run_info
 }
 
 output {
     gene_names {
-        path { "${params.out_dir}" }
+        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     abundance {
-        path { "${params.out_dir}" }
+        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kbcount_count {
-        path { "${params.out_dir}" }
+        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kbcount_tpm {
-        path { "${params.out_dir}" }
+        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        mode "copy"
+    }
+    kb_info {
+        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        mode "copy"
+    }
+    run_info {
+        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
 }
