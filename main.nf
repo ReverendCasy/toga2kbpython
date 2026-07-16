@@ -22,7 +22,7 @@ params {
     toga_dir: Path
     forward_reads: Path
     reverse_reads: Path
-    out_dir: Path
+    out_dir: String
     include_utr = false
     strand: String = "unstranded"
     pairwise = false
@@ -35,7 +35,7 @@ workflow{
     // out_dir = 
     genome_fa = "genome.fa"
     bed_file = (
-        params.include_utr ? "${params.toga_dir}/query_annotation.with_utr.bed" : "${params.toga_dir}/query_annotation.bed"
+        params.include_utr ? "${params.toga_dir}/query_annotation.with_utrs.bed" : "${params.toga_dir}/query_annotation.bed"
     )
     isoforms = "${params.toga_dir}/query_genes.tsv"
     gtf_file = "query_annotation.gtf"
@@ -44,7 +44,7 @@ workflow{
     kbref_index = "index.idx"
     kbref_t2g = "t2g.txt"
     kbref_fa = "cdna.fasta"
-    decoy = params.include_utr ? genome_fa : "decoy.fa"
+    decoy = "decoy.fa"
     kbref_t2g_fixed = "toga.gene_names.txt"
 
     // part 1: kb_index_final.sh content
@@ -60,15 +60,14 @@ workflow{
     create_gtf_for_kbpython(bed_file, isoforms, gtf_file)
 
     // create a decoy file
-    if (!params.include_utr) {
-        create_decoy(twoBitToFa.out, bed_file, decoy)
-    }
+    create_decoy(twoBitToFa.out, bed_file, decoy, params.include_utr)
 
     // run kb ref
     kb_ref(
         twoBitToFa.out,
         create_gtf_for_kbpython.out,
-        params.include_utr ? twoBitToFa.out : create_decoy.out,
+        // params.include_utr ? twoBitToFa.out : create_decoy.out,
+        create_decoy.out,
         kbref_tmp,
         kbref_index,
         kbref_t2g,
@@ -106,27 +105,27 @@ workflow{
 
 output {
     gene_names {
-        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     abundance {
-        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kbcount_count {
-        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kbcount_tpm {
-        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kb_info {
-        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     run_info {
-        path { params.out_dir.isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
 }
