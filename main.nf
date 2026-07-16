@@ -67,7 +67,7 @@ workflow{
     kb_ref(
         twoBitToFa.out,
         create_gtf_for_kbpython.out,
-        create_decoy.out,
+        params.include_utr ? twoBitToFa.out : create_decoy.out,
         kbref_tmp,
         kbref_index,
         kbref_t2g,
