@@ -125,8 +125,11 @@ def main(input_dir: click.Path, t2g: click.Path, output_dir: click.Path) -> None
         ch.write(COUNT_HEADER)
         th.write(TPM_HEADER)
         for gene in gene2abundance.keys():
-            count_line: str = OUT_LINE.format(gene=gene, value=gene2abundance[gene])
-            tpm_line: str = OUT_LINE.format(gene=gene, value=gene2tmp[gene])
+            new_name: str = g2t.get(gene)
+            if new_name is None:
+                raise ValueError("Gene %s does not have a corresponding updated name" % gene)
+            count_line: str = OUT_LINE.format(gene=new_name, value=gene2abundance[gene])
+            tpm_line: str = OUT_LINE.format(gene=new_name, value=gene2tmp[gene])
             ch.write(count_line)
             th.write(tpm_line)
 
