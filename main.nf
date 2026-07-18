@@ -105,27 +105,27 @@ workflow{
 
 output {
     gene_names {
-        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { params.out_dir.startsWith("/") ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     abundance {
-        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { params.out_dir.startsWith("/") ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kbcount_count {
-        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { params.out_dir.startsWith("/") ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kbcount_tpm {
-        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { params.out_dir.startsWith("/") ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     kb_info {
-        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { params.out_dir.startsWith("/") ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
     run_info {
-        path { file(params.out_dir).isAbsolute() ? "${params.out_dir}" : "../${params.out_dir}" }
+        path { params.out_dir.startsWith("/") ? "${params.out_dir}" : "../${params.out_dir}" }
         mode "copy"
     }
 }
