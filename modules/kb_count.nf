@@ -20,12 +20,6 @@ process kb_count {
 
 
     script:
-//     input_args = pairwise == true ? "${read_dir}/paired_1.fq.gz ${read_dir}/paired_2.fq.gz" : """ \
-// ${read_dir}/paired_F1_R1.fq.gz \
-// ${read_dir}/paired_F1_R2.fq.gz \
-// ${read_dir}/paired_F2_R1.fq.gz \
-// ${read_dir}/paired_F2_R2.fq.gz
-// """
 
     """
     kb count -x BULK \
