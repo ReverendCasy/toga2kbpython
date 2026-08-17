@@ -20,7 +20,7 @@ include { post_count } from "./modules/post_kbcount.nf"
 
 params {
     table: Path
-    out_dir: String
+    out_dir: String = "output"
     include_utr = false
     strand: String = "unstranded"
     pairwise = false
