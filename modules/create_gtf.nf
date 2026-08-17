@@ -2,7 +2,7 @@ nextflow.enable.types = true
 
 process create_gtf_for_kbpython {
 
-    conda "anaconda::click"
+    conda "anaconda::click,bioconda::bed2gtf"
 
     input:
     toga_dir: Path
