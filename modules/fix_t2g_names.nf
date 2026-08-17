@@ -1,19 +1,25 @@
+nextflow.enable.types = true
+
 process fix_t2g_names {
-    // conda "conda-forge::r==4.5"
     conda "anaconda::click,networkx"
 
     input:
-    path t2g_in
-    val t2g_out
+    record(
+        t2g_in: Path,
+        key: String,
+    )
 
     output:
-    path "${t2g_out}"
+    record(
+        t2g_out: file(t2g_out),
+        key: key,
+    )
 
     script:
+    t2g_in_name = "${t2g_in}".tokenize('/')[-1]
+    t2g_out = "${t2g_in_name}.fixed_names"
+
     """
     kb_t2g.py --input ${t2g_in} --output ${t2g_out}
     """
-    // """
-    // kb_t2g.R SAMPLE_OUTPUT ${t2g_in} ${t2g_out}
-    // """
 }

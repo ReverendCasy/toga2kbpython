@@ -1,25 +1,38 @@
+nextflow.enable.types = true
+
+include { FastqPair } from "./types.nf"
+
 process kb_count {
     conda "bioconda::kb-python"
 
     input:
-    path index // kb-ref index output
-    path t2g // kb-ref gene-to-isoform mapping
-    path forward_reads
-    path reverse_reads
-    // read_directory
-    val strand // strandedness 
-    val output // path to output directory
-    val pairwise // boolean flag; if set, expects the input to be pairwise
+    record(
+        species: String,
+        sample: String,
+        key: String,
+        read_dir: Path,
+        reads: List<FastqPair>,
+        index: Path,
+        t2g: Path,
+        fasta: Path,
+        t2g_out: Path,
+        // t2g: Path,
+    )
+    strand: String // strandedness 
+    pairwise: Boolean // boolean flag; if set, expects the input to be pairwise
 
     output:
-    path "${output}", emit: out_dir
-    path "abundance.gene.tsv", emit: abundance_gene
-    path "abundance.tsv", emit: abundance
-    path "kb_info.json", emit: kb_info
-    path "run_info.json", emit: run_info
+    record(
+        out_dir: file(output),
+        t2g_out: t2g_out,
+    )  
 
 
     script:
+    read_arg = reads
+        .collectMany { p -> ["${read_dir}/${sample}/${p.forward}", "${read_dir}/${sample}/${p.reverse}"] }
+        .join(' ')
+    output = "${species}/${sample}"
 
     """
     kb count -x BULK \
@@ -30,14 +43,11 @@ process kb_count {
         --parity=paired \
         --tcc \
         --matrix-to-directories \
-        ${forward_reads} ${reverse_reads} && \
+        ${read_arg} && \
     mv ${output}/quant_unfiltered/abundance_1/* ${output}/ && \
-    for file in flens.txt inspect.json matrix.cells matrix.ec matrix.sample.barcodes output.bus transcripts.txt; do \
+    for file in counts_unfiltered flens.txt inspect.json matrix.cells matrix.ec matrix.sample.barcodes output.bus quant_unfiltered transcripts.txt; do \
         rm -rf ${output}/\${file}; \
     done && \
-    cp ${output}/abundance.tsv abundance.tsv && \
-    cp ${output}/abundance.gene.tsv abundance.gene.tsv && \
-    cp ${output}/kb_info.json . && \
-    cp ${output}/run_info.json .
+    cp ${t2g_out} ${output}/toga.kb.t2g.tsv
     """
 }

@@ -1,16 +1,19 @@
+nextflow.enable.types = true
+
 process post_count {
     conda "anaconda::click"
 
     input:
-    path input_dir
-    path t2g_corr
+    record(
+        out_dir: Path,
+        t2g_out: Path
+    )
 
     output:
-    path "toga.kb.counts.tsv", emit: counts
-    path "toga.kb.tpm.tsv", emit: tpm
+    record(out_dir: out_dir)
 
     script:
     """
-    post_kbcount.py --input_dir ${input_dir} --t2g ${t2g_corr} --output_dir .
+    post_kbcount.py --input_dir ${out_dir} --t2g ${t2g_out} --output_dir ${out_dir}
     """
 }

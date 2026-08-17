@@ -1,12 +1,14 @@
+nextflow.enable.types = true
+
 process samtools_faidx {
     container "https://hub.docker.com/r/biocontainers/samtools"
     conda "bioconda::samtools==1.23.1"
 
     input:
-    path genome
+    genome: Path
 
     output:
-    path "${genome}.fai"
+    "${genome}.fai"
 
     script:
     """

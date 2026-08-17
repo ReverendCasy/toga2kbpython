@@ -1,29 +1,37 @@
+nextflow.enable.types = true
+
 process kb_ref {
     conda "bioconda::kb-python"
 
     input:
-    path fasta
-    path gtf
-    path decoy
-    val tmp_dir
-    val output_index
-    val output_t2g
-    val output_fasta
-
+    record(
+        fasta: Path,
+        gtf: Path,
+        decoy: Path,
+        key: String,
+    )
 
     output:
-    path "${output_index}", emit: index
-    path "${output_t2g}", emit: t2g
-    path "${output_fasta}", emit: fasta
+    record(
+        index: file(index),
+        t2g: file(t2g),
+        fasta: file(cds),
+        key: key
+    )
     
     script:
+    index = "${key}.index"
+    t2g = "${key}.t2g"
+    cds = "${key}.kbref.fasta"
+    tmp_dir = "${key}_kbref_tmp"
+
     """
     kb ref \
         ${fasta} \
         ${gtf} \
-        -i ${output_index} \
-        -g ${output_t2g} \
-        -f1 ${output_fasta} \
+        -i ${index} \
+        -g ${t2g} \
+        -f1 ${cds} \
         --d-list ${decoy} \
         --tmp ${tmp_dir} \
         2>&1 
