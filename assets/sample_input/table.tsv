@@ -1,0 +1,4 @@
+my_query1   /data/my_query1/my_query1.2bit  /data/my_ref/TOGA2/vs_my_query1 /data/my_query1/reads   liver   liver_reads_F1.fq.gz    liver_reads_R1.fq.gz
+my_query1   /data/my_query1/my_query1.2bit  /data/my_ref/TOGA2/vs_my_query1 /data/my_query1/reads   spleen  spleen_reads_F1.fq.gz   spleen_reads_R1.fq.gz
+my_query1_upd   /data_my_query1/my_query1.2bit  /data/my_ref/TOGA2/vs_my_query1_upd /data/my_query1/reads   liver   liver_reads_F1.fq.gz    liver_reads_R1.fq.gz
+my_query2   /data/my_query2/my_query2.2bit  /data/my_ref/TOGA2/vs_my_query2 /data/my_query2/reads   brain   brain_reads_F1.fq.gz    brain_reafs_R1.fq.gz    brain_reads_F2.fq.gz    brain_reafs_R2.fq.gz
