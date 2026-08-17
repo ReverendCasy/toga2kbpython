@@ -44,7 +44,7 @@ The pipeline uses TOGA2 output and paired-end RNAseq reads to quantify gene expr
 6. Genes in all output directories are filtered and assigned the new names as established at step 4.
 
 # Running toga2kbpython
-Starting from `v0.2`, `toga2kbpython` requires only one mandatory argument, `--table`, standing for the input tab-separated file describing input for every unique `kb-python` run. See (example file)[https://github.com/hillerlab/toga2kbpython/blob/assets/sample_input/table.tsv] and [table file README](https://github.com/hillerlab/toga2kbpython/blob/assets/sample_input/README.md) for additional clarification.  
+Starting from `v0.2`, `toga2kbpython` requires only one mandatory argument, `--table`, standing for the input tab-separated file describing input for every unique `kb-python` run. See [example file](https://github.com/hillerlab/toga2kbpython/blob/assets/sample_input/table.tsv) and [table file README](https://github.com/hillerlab/toga2kbpython/blob/assets/sample_input/README.md) for additional clarification.  
 You can specify output directory with `--output` parameter. The `--include_utr` parameter controls using TOGA2-predicted untranslated region sequences in the pseudoalignment step (see *Caveats* section below).
 
 # Caveats
