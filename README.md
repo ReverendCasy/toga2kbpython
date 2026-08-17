@@ -35,22 +35,17 @@ This pipeline is currently in early access.
 
 # Description
 The pipeline uses TOGA2 output and paired-end RNAseq reads to quantify gene expression with [kb-python](https://github.com/pachterlab/kb_python) (Melsted, P., Booeshaghi, A.S., et al., 2021). The pipeline consists of the following steps:
-1. TOGA2 output annotation is used to create a `kb-python`-compatible GTF file using [bed2gtf](https://github.com/alejandrogzi/bed2gtf).
-2. Decoy sequence is created using the input genome [2bit](https://genome.ucsc.edu/goldenpath/help/twoBit.html) file.
-3. Input genome sequence is indexed with `kb ref`
-4. TOGA2 genes from the GTF files are renamed, with many:1/many:many genes collapsed into single units (see "Caveats" for more information).
-5. Input pairwise RNAseq reads are pseudoligned to the indexed genome using the index file and the decoy sequence obtained at the previous steps.
-6. Genes in the output files are filtered and assigned the new names as established at step 4.
+1. Each unique genome assembly file is indexed with [samtools faidx](https://www.htslib.org/doc/samtools-faidx.html)
+2. Each unique TOGA2 output annotation directory is used to create a `kb-python`-compatible GTF file using [bed2gtf](https://github.com/alejandrogzi/bed2gtf).
+2. For each unique genome-TOGA2 output combination, the pipeline produces a decoy file.
+3. Input genome files are indexed with `kb ref` for each unique decoy file (genome-TOGA2 combination).
+4. TOGA2 genes from the GTF files are renamed for each unique TOGA2 output directory, with many:1/many:many genes collapsed into single units (see "Caveats" for more information).
+5. For each RNAseq sample in each species, pairwise RNAseq reads are pseudoligned to the indexed genome using the index and the decoy files obtained at the previous steps.
+6. Genes in all output directories are filtered and assigned the new names as established at step 4.
 
 # Running toga2kbpython
-The following arguments are mandatory for `toga2kbpython` to run:
-* `--genome` - Query<sup>*</sup> genome in [2bit](https://genome.ucsc.edu/goldenpath/help/twoBit.html) format.
-* `--toga_dir` - TOGA2 output directory for the selected query.
-* `--forward_reads` - Forward RNAseq reads in [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) format. Can be compressed with gzip.
-* `--reverse_reads` - Reverse RNAseq reads in [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) format. Can be compressed with gzip.
-* `--out_dir` - Name of the output directory.
-
-<sup>*</sup> For the purpose of `kb-python` pseudoalignment, the input genome sequence is called reference elsewhere. We note, however, that the input for `toga2kbpython` is a TOGA2 query annotation.
+Starting from `v0.2`, `toga2kbpython` requires only one mandatory argument, `--table`, standing for the input tab-separated file describing input for every unique `kb-python` run. See (example file)[https://github.com/hillerlab/toga2kbpython/blob/assets/sample_input/table.tsv] and [table file README](https://github.com/hillerlab/toga2kbpython/blob/assets/sample_input/README.md) for additional clarification.  
+You can specify output directory with `--output` parameter. The `--include_utr` parameter controls using TOGA2-predicted untranslated region sequences in the pseudoalignment step (see *Caveats* section below).
 
 # Caveats
 >[!INFO]
