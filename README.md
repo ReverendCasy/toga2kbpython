@@ -48,7 +48,7 @@ Starting from `v0.2`, `toga2kbpython` requires only one mandatory argument, `--t
 You can specify output directory with `--output` parameter. The `--include_utr` parameter controls using TOGA2-predicted untranslated region sequences in the pseudoalignment step (see *Caveats* section below).
 
 # Caveats
->[!INFO]
+> [!NOTE]
 * This pipeline uses Conda for dependency resolution.
 * The following conventions are applied to TOGA2-inferred genes and their names for the purpose of `kb-python` compatibility:
     * many:many genes are treated as single transcription units. For example, if a many:many orthology group contains five genes in the query, they are represented by a single gene entry in the output files, with transcription count/transcript per million values representing the sum of respective values for all five genes.
