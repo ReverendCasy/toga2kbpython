@@ -1,3 +1,5 @@
 _*
 bin/*.sh
 bin/*.R
+_main.nf
+dev
